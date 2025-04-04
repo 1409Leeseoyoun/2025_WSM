@@ -1,10 +1,13 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import ProductItem from "./ProductItem";
 import "../App.css";
 
-function ProductList({ products, addToCart, categoryFilter = null, searchTerm = "" }) {
+function ProductList({ products, addToCart, searchTerm = "" }) {
+  const { category } = useParams(); // URL에서 카테고리 가져오기
+
   const filteredProducts = products.filter((product) => {
-    const matchesCategory = categoryFilter ? product.category === categoryFilter : true;
+    const matchesCategory = category ? product.category === category : true;
     const matchesSearch = searchTerm
       ? product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.description.toLowerCase().includes(searchTerm.toLowerCase())
@@ -14,6 +17,7 @@ function ProductList({ products, addToCart, categoryFilter = null, searchTerm = 
 
   return (
     <div>
+      <h2>{category ? `${category} 상품 목록` : "전체 상품 목록"}</h2>
       {filteredProducts.length === 0 ? (
         <div>
           <p>검색 결과가 없습니다.</p>

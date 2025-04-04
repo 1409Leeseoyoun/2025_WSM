@@ -13,6 +13,12 @@ header {
     row-gap: 10px;
 }
 
+.category-content {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+}
+
 .cart-link {
     display: flex;
     justify-content: center;

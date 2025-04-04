@@ -1,6 +1,5 @@
-// src/App.js
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
@@ -10,7 +9,15 @@ import { CartProvider, useCart } from "./context/CartContext";
 import products from "./data";
 import "./App.css";
 
-// App의 내부 컴포넌트 - CartProvider 내부에서 useCart 훅을 사용하기 위함
+// 카테고리별 상품 필터링을 위한 컴포넌트
+function CategoryPage({ addToCart, searchTerm }) {
+  const { categoryName } = useParams(); // 🔥 useParams 사용
+  const filteredProducts = products.filter((p) => p.category === categoryName);
+
+  return <HomePage products={filteredProducts} addToCart={addToCart} searchTerm={searchTerm} />;
+}
+
+// App의 내부 컴포넌트
 function AppContent() {
   const [searchTerm, setSearchTerm] = useState("");
   const {
@@ -22,7 +29,6 @@ function AppContent() {
     getCartItemCount,
   } = useCart();
 
-  // 검색 핸들러
   const handleSearch = (term) => {
     setSearchTerm(term);
   };
@@ -35,33 +41,15 @@ function AppContent() {
         <Routes>
           <Route
             path="/"
-            element={
-              <HomePage
-                products={products}
-                addToCart={addToCart}
-                searchTerm={searchTerm}
-              />
-            }
+            element={<HomePage products={products} addToCart={addToCart} searchTerm={searchTerm} />}
           />
-
           <Route
             path="/product/:id"
-            element={
-              <ProductDetailPage products={products} addToCart={addToCart} />
-            }
+            element={<ProductDetailPage products={products} addToCart={addToCart} />}
           />
-
           <Route
             path="/category/:categoryName"
-            element={
-              <HomePage
-                products={products.filter(
-                  (p) => p.category === window.location.pathname.split("/")[2]
-                )}
-                addToCart={addToCart}
-                searchTerm={searchTerm}
-              />
-            }
+            element={<CategoryPage addToCart={addToCart} searchTerm={searchTerm} />}
           />
           <Route
             path="/cart"
