@@ -98,7 +98,7 @@ function App() {
       <CartProvider>
         <AppContent />
       </CartProvider>
-      <div>test</div>
+      <div>Retry</div>
     </Router>
   );
 }
