@@ -98,7 +98,6 @@ function App() {
       <CartProvider>
         <AppContent />
       </CartProvider>
-      <div>Retry</div>
     </Router>
   );
 }
