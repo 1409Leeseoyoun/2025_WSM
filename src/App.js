@@ -97,6 +97,7 @@ function App() {
     <Router className="main">
       <CartProvider>
         <AppContent />
+        <div>test</div>
       </CartProvider>
     </Router>
   );
